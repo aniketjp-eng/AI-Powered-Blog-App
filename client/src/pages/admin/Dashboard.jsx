@@ -1,6 +1,6 @@
 import { assets, dashboard_data } from "../../assets/assets";
 import React, { useEffect, useState } from "react";
-import BlogTableItem from "./BlogTableItem";
+import BlogTableItem from "../../components/admin/BlogTableItem";
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState({
     blogs: 0,
