@@ -1,21 +1,31 @@
 import express from "express";
-import 'dotenv/config'
+import 'dotenv/config' //Loads environment variables from a .env file.
 import cors from 'cors'
+import connectDb from "./configs/db.js";
+import adminRouter from "./routes/adminRoutes.js";
 
 const app = express();
-//Middle Ware -->
+
+await connectDb();
+//Middleware -->
 app.use(cors());
+//app.use(cors()); allows requests from different origins to access the Express server.
+
+
 app.use(express.json()); 
+//converts json formate data into js objects
 
 
 // Routes 
-app.get('/', (req, res) => {
-      res.send("Route path -- API is Working")
-})
-const port =  proces.env.port || 3000;
+app.get('/', (req, res) =>  //home route
+res.send("Route path -- API is Working")
+)
+app.use('/api/admin', adminRouter)
 
-app.listen(port, () => {
-    console.log('Server is running on port'+ port);
+const PORT =  process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log('Server is running on port ' + PORT);
 })
 
 export default app;
