@@ -21,15 +21,30 @@ export const addBlog = async (req, res) => {
       fileName: imageFile.originalname,
       folder: "/blogs",
     });
-    const image = response.url;
+
+      // Generate optimized URL from the uploaded file path
+const optimizedImageUrl = imagekit.helper.buildSrc({
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+  src: response.filePath,
+  transformation: [
+    {
+      quality: "auto",
+      format: "webp",
+      width: 1280,
+    },
+  ],
+});
+
 await Blog.create({
   title,
   subTitle,
   description,
   category,
-  image,
+  image:  optimizedImageUrl,
   isPublished,
 });
+console.log("Optimized URL:", optimizedImageUrl);
+console.log("ImageKit response:", response);
 
     //optimized through imageKit URL transformation CODE USE HERE -------> 
     res.json({
