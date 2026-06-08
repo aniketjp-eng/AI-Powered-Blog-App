@@ -1,3 +1,4 @@
+
 import {createContext, useContext, useEffect, useState} from 'react'
 import axios from "axios";
 import {useNavigate} from 'react-router-dom'
@@ -15,7 +16,10 @@ export const AppProvider = ({ children })=>{
     const [token, setToken] = useState(null)
     const [blogs, setBlogs] = useState([])
     const [input, setInput] = useState("")
-
+    
+    const value = {
+        axios, navigate, token, setToken, blogs, setBlogs, input, setInput
+    }
     const fetchBlogs = async ()=>{
         try {
            const {data} = await axios.get('/api/blog/all');
@@ -33,10 +37,6 @@ export const AppProvider = ({ children })=>{
             axios.defaults.headers.common['Authorization'] = `${token}`;
         }
     },[])
-
-    const value = {
-        axios, navigate, token, setToken, blogs, setBlogs, input, setInput
-    }
 
     return (
         <AppContext.Provider value={value}>
